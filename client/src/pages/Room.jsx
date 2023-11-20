@@ -16,6 +16,7 @@ const Room = () => {
   const [pause, setPause] = useState("Pause");
   const [muteAudio, setMuteAudio] = useState(false);
   const [pauseVideo, setPauseVideo] = useState(false);
+  const [establishedConnection, setEstablishedConnection] = useState(false);
 
   
   const handleJoinedUser = useCallback(({ id }) => {
@@ -99,6 +100,7 @@ const Room = () => {
 
   const handleNegoNeedFinal = useCallback(async ({ ans }) => {
     await peer.setLocalDescription(ans);
+    setEstablishedConnection(true);
   }, []);
 
 
@@ -174,7 +176,7 @@ const Room = () => {
     
       console.log("pause ", remoteStream.getTracks()[1]);
     }else{
-        setPause("Enable");
+        setPause("Play");
         myStream.getTracks()[1].enabled = false;
         
         console.log("Enable ", remoteStream.getTracks()[1].enabled);
@@ -189,13 +191,14 @@ const Room = () => {
       <h3 style={{textAlign: "center"}} className="room-connection">
         {remoteSocketId ? "Connected" : "No one is in the room"}
       </h3>
-      {myStream &&   (
+
+      {myStream &&  !establishedConnection && (
         <Button variant="dark" style={{ marginRight: "15px" }} className="room-send-stream" onClick={sendStream}>
           Send Stream
         </Button>
       )}
 
-      {remoteSocketId && (
+      {remoteSocketId && !establishedConnection && (
         <Button variant="dark" style={{ marginRight: "15px" }} className="room-call" onClick={handleUserCall}>
           Call
         </Button>
