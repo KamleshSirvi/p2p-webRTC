@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
   console.log(`socket connected`, socket.id)
   socket.on("room:join", (data) => {
       console.log(data);
-      const { room} = data;
+      const { room } = data;
       io.to(room).emit("user:joined", { id: socket.id});
       socket.join(room);
       io.to(socket.id).emit("room:join", data)
@@ -67,5 +67,10 @@ io.on("connection", (socket) => {
   socket.on("leave", (id) => {
       socket.leave(id);
       socket.broadcast.to(id).emit("leave")
+  })
+
+  socket.on("disconnect", (id) => {
+    console.log(`user Disconnected`)
+    socket.leave(id);
   })
 })
