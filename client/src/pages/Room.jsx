@@ -45,10 +45,16 @@ const Room = () => {
   const handleIncommingCall = useCallback(
     async ({ from, offer }) => {
       setRemoteSocketId(from);
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true,
-      });
+      let stream
+      try{
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        });
+      }catch(err){
+        console.log(err)
+      }
+      
       setMyStream(stream);
       console.log(`Incomming Call`, from, offer);
       const ans = await peer.getAnswer(offer);

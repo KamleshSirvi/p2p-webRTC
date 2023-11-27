@@ -51,7 +51,7 @@ const Home = () => {
                 name="room"
                 value={room}
               />
-              <Button variant="primary" type="submit">Join</Button>
+              <Button variant="primary" type="submit">Join Room</Button>
             </Stack>
           </Col>
         </Row>

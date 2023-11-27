@@ -36,6 +36,7 @@ const io = new Server(8000, {
   cors: true
 });
 
+
 io.on("connection", (socket) => {
   console.log(`socket connected`, socket.id)
   socket.on("room:join", (data) => {
@@ -43,7 +44,7 @@ io.on("connection", (socket) => {
       const { room } = data;
       io.to(room).emit("user:joined", { id: socket.id});
       socket.join(room);
-      io.to(socket.id).emit("room:join", data)
+      io.to(socket.id).emit("room:join", room)
   });
 
   socket.on("user:call", ({to, offer}) => {
@@ -70,7 +71,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (id) => {
-    console.log(`user Disconnected`)
     socket.leave(id);
+    console.log(`user Disconnected`)
   })
 })
