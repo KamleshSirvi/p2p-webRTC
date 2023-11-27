@@ -11,7 +11,12 @@ const Home = () => {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      socket.emit("room:join", { room });
+      if(room === ""){
+        alert("Room Name cannot be Empty!")
+      }else{
+        socket.emit("room:join", { room });
+      }
+      
     },
     [room, socket]
   );
