@@ -16,7 +16,6 @@ const Home = () => {
       }else{
         socket.emit("room:join", { room });
       }
-      
     },
     [room, socket]
   );

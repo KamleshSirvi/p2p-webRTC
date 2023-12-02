@@ -17,9 +17,9 @@ app.use(cors());
 app.use('/api/users', userRoute);
 
 
-app.listen(port, (req, res) => {
-     console.log(`server running on port: ${port}`);
-});
+// app.listen(port, (req, res) => {
+//      console.log(`server running on port: ${port}`);
+// });
 
 // connect mongobd
 mongoose.connect(url, { 
@@ -32,9 +32,13 @@ mongoose.connect(url, {
 
 
 // creating a new signaling server
-const io = new Server(8000, {
+const io = new Server( {
   cors: true
 });
+
+io.listen(port, (req, res) => {
+  console.log(`server is running `);
+})
 
 
 io.on("connection", (socket) => {
